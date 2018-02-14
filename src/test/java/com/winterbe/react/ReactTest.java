@@ -22,7 +22,6 @@ public class ReactTest {
     @Test
     public void testRenderCommentBox() throws Exception {
 
-        System.out.println("-------------");
         List<Comment> comments = new ArrayList<>();
         comments.add(new Comment("Peter Parker", "This is a comment."));
         comments.add(new Comment("John Doe", "This is *another* comment."));
@@ -34,46 +33,6 @@ public class ReactTest {
 
         Document doc = Jsoup.parse(html);
         assertThat(doc.select("div.comment").size(), is(2));
-
-        for( int i = 0; i < 100;i++ ) {
-            long startTime = System.nanoTime();
-            react.renderCommentBox(comments);
-            long endTime = System.nanoTime();
-            long duration = (endTime - startTime);
-            double milli = duration / 1e6;
-            System.out.println(String.format("%.2f", milli));
-        }
     }
 
-    @Test
-    public void testCompiledRenderCommentBox() throws Exception {
-
-        System.out.println("-------------");
-        String script = Stream.of("static/nashorn-polyfill.js",
-                "static/vendor/react.js",
-                "static/vendor/showdown.min.js",
-                "static/commentBox.js")
-                .map(ThrowingFunction.wrap(React::slurp)).collect(Collectors.joining());
-
-        List<Comment> comments = new ArrayList<>();
-        comments.add(new Comment("Peter Parker", "This is a comment."));
-        comments.add(new Comment("John Doe", "This is *another* comment."));
-
-        React react = new React();
-        String html = react.compiledRenderCommentBox(comments);
-
-        assertThat(html, startsWith("<div"));
-
-        Document doc = Jsoup.parse(html);
-        assertThat(doc.select("div.comment").size(), is(2));
-
-        for( int i = 0; i < 100;i++ ) {
-            long startTime = System.nanoTime();
-            react.compiledRenderCommentBox(comments);
-            long endTime = System.nanoTime();
-            long duration = (endTime - startTime);
-            double milli = duration / 1e6;
-            System.out.println(String.format("%.2f", milli));
-        }
-    }
 }
