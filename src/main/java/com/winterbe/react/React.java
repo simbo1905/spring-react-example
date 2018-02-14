@@ -6,10 +6,8 @@ import javax.script.*;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.Reader;
 import java.nio.charset.StandardCharsets;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -30,8 +28,8 @@ public class React {
                 Compilable compilingEngine = (Compilable) engine;
                 CompiledScript cs = compilingEngine.compile(script);
 
-                Bindings bindings = engine.getBindings(ScriptContext.ENGINE_SCOPE);
-                cs.eval(bindings);
+                // this is a noop but required to initialize the context of the compiled script
+                cs.eval(engine.getBindings(ScriptContext.ENGINE_SCOPE));
                 return cs;
             } catch (ScriptException e) {
                 throw new RuntimeException(e);
