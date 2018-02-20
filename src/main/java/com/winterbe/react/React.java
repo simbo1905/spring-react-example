@@ -1,7 +1,5 @@
 package com.winterbe.react;
 
-import jdk.nashorn.api.scripting.NashornScriptEngine;
-
 import javax.script.*;
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -17,7 +15,8 @@ public class React {
         @Override
         protected CompiledScript initialValue() {
 
-            String script = Stream.of("static/nashorn-polyfill.js",
+            String script = Stream.of("static/randomquotes.js",
+                    "static/nashorn-polyfill.js",
                     "static/vendor/react.js",
                     "static/vendor/showdown.min.js",
                     "static/commentBox.js")
@@ -43,7 +42,7 @@ public class React {
 
             Invocable invocable = (Invocable) cscript.getEngine();
 
-            return String.valueOf(invocable.invokeFunction("renderServer", comments));
+            return String.valueOf(invocable.invokeFunction("createMarkup"));
         }
         catch (Exception e) {
             throw new IllegalStateException("failed to render react component", e);
