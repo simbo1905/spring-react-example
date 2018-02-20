@@ -26,7 +26,7 @@ public class ReactTest {
         assertThat(html, startsWith("<div"));
 
         Document doc = Jsoup.parse(html);
-        assertThat(doc.select("div.comment").size(), is(2));
+        assertThat(doc.select("div.comment").size(), is(90));
     }
 
 }
